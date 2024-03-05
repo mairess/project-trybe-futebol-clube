@@ -4,7 +4,7 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import SequelizeTeams from '../database/models/SequelizeTeams';
+import SequelizeTeam from '../database/models/SequelizeTeam';
 import { teams, team } from './mocks/Teams.mock';
 
 import { Response } from 'superagent';
@@ -21,7 +21,7 @@ describe('Teams test', () => {
 
   it('Returns all teams.', async () => {
     // Arrange
-    sinon.stub(SequelizeTeams, "findAll").resolves(teams as any);
+    sinon.stub(SequelizeTeam, "findAll").resolves(teams as any);
     // Act
     chaiHttpResponse = await chai.request(app).get('/teams');
     // Assert
@@ -31,7 +31,7 @@ describe('Teams test', () => {
 
   it('Returns team by id.', async () => {
     // Arrange
-    sinon.stub(SequelizeTeams, "findByPk").resolves(team as any);
+    sinon.stub(SequelizeTeam, "findByPk").resolves(team as any);
     // Act
     chaiHttpResponse = await chai.request(app).get('/teams/2');
     // Assert
@@ -41,7 +41,7 @@ describe('Teams test', () => {
 
   it('Should not return a team.', async () => {
     // Arrange
-    sinon.stub(SequelizeTeams, "findByPk").resolves(null);
+    sinon.stub(SequelizeTeam, "findByPk").resolves(null);
     // Act
     chaiHttpResponse = await chai.request(app).get('/teams/848484848111');
     // Assert
