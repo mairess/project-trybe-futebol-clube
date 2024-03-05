@@ -7,9 +7,6 @@ class TeamController {
 
   public async getAllTeams(_req: Request, res: Response) {
     const serviceResponse = await this.teamsService.getAllTeams();
-    if (serviceResponse.status !== 'SUCCESSFUL') {
-      return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
-    }
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
