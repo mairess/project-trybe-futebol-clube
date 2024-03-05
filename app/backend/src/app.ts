@@ -1,5 +1,7 @@
 import * as express from 'express';
 import 'express-async-errors';
+import * as cors from 'cors';
+import router from './routes';
 
 import errorMiddleware from './middlewares/errorMiddleware';
 
@@ -8,6 +10,10 @@ class App {
 
   constructor() {
     this.app = express();
+
+    this.routes();
+
+    this.app.use(cors());
 
     this.config();
 
@@ -29,6 +35,10 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
+  }
+
+  private routes(): void {
+    this.app.use(router);
   }
 
   public start(PORT: string | number): void {

@@ -1,0 +1,37 @@
+Script started on 2024-03-04 18:13:19-03:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="242" LINES="15"]
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                  ]2;maires@pop-os:~/Documentos/trybe-projetos/sd-034-trybe-futebol-clube/app/backend]1;..e/app/backend]7;file://pop-os/home/maires/Documentos/trybe-projetos/sd-034-trybe-futebol-clube/app/backend\[0m[27m[24m[J[01;32m➜  [36mbackend[00m [01;34mgit:([31mmaires-souza-sd-034-trybe-futebol-clube[34m) [33m✗[00m [K[?1h=[?2004hscriptnscriptnpscriptmscript script[?1l>[?2004l
+]2;npm script]1;npmUnknown command: "script"
+
+To see a list of supported npm commands, run:
+  npm help
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                  ]2;maires@pop-os:~/Documentos/trybe-projetos/sd-034-trybe-futebol-clube/app/backend]1;..e/app/backend]7;file://pop-os/home/maires/Documentos/trybe-projetos/sd-034-trybe-futebol-clube/app/backend\[0m[27m[24m[J[01;31m➜  [36mbackend[00m [01;34mgit:([31mmaires-souza-sd-034-trybe-futebol-clube[34m) [33m✗[00m [K[?1h=[?2004hnpm scripts[?1l>[?2004l
+]2;npm scripts]1;npmUnknown command: "scripts"
+
+To see a list of supported npm commands, run:
+  npm help
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                  ]2;maires@pop-os:~/Documentos/trybe-projetos/sd-034-trybe-futebol-clube/app/backend]1;..e/app/backend]7;file://pop-os/home/maires/Documentos/trybe-projetos/sd-034-trybe-futebol-clube/app/backend\[0m[27m[24m[J[01;31m➜  [36mbackend[00m [01;34mgit:([31mmaires-souza-sd-034-trybe-futebol-clube[34m) [33m✗[00m [K[?1h=[?2004hnnpm run[?1l>[?2004l
+]2;npm run]1;npm[0m[1mLifecycle scripts[22m[0m included in [32mtfc-backend@1.0.0[39m:
+  test
+    [2mmocha -r ts-node/register ./src/tests/*$NAME*.{test,spec}.ts -t 10000 --exit[22m
+  prestart
+    [2mnpm run build && npm run db:reset[22m
+  start
+    [2mnode ./build/server.js[22m
+
+available via `[34mnpm run-script[39m`:
+  test:coverage
+    [2mnyc npm run test[22m
+  test:coverage:json
+    [2mnyc --reporter=json-summary npm run test[22m
+  db:reset
+    [2mnpx tsc && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all[22m
+  build
+    [2mtsc --project tsconfig.json[22m
+  predev
+    [2mnpm run db:reset[22m
+  dev
+    [2mtsnd --watch "./src/**" --transpile-only ./src/server.ts[22m
+  lint
+    [2meslint ./src --ext .ts[22m
+
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                  ]2;maires@pop-os:~/Documentos/trybe-projetos/sd-034-trybe-futebol-clube/app/backend]1;..e/app/backend]7;file://pop-os/home/maires/Documentos/trybe-projetos/sd-034-trybe-futebol-clube/app/backend\[0m[27m[24m[J[01;32m➜  [36mbackend[00m [01;34mgit:([31mmaires-souza-sd-034-trybe-futebol-clube[34m) [33m✗[00m [K[?1h=[?2004h[0m[27m[24m[J[01;32m➜  [36mbackend[00m [01;34mgit:([31mmaires-souza-sd-034-trybe-futebol-clube[34m) [33m✗[00m [0m[27m[24m[J[01;32m➜  [36mbackend[00m [01;34mgit:([31mmaires-souza-sd-034-trybe-futebol-clube[34m) [33m✗[00m [0m[27m[24m[J[01;32m➜  [36mbackend[00m [01;34mgit:([31mma
