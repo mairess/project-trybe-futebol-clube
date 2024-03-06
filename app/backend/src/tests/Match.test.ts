@@ -18,8 +18,8 @@ describe("Matches tests.", () => {
   describe("Route /matches.", () => {
     it("Returns all matches.", async () => {
       // Arrange
-      const mockFindAllReturn = SequelizeMatch.bulkBuild(matchesFromDB);
-      sinon.stub(SequelizeMatch, "findAll").resolves(mockFindAllReturn);
+      // const mockFindAllReturn = SequelizeMatch.bulkBuild(matchesFromDB);
+      sinon.stub(SequelizeMatch, "findAll").resolves(matchesFromDB as any);
       // Act
       chaiHttpResponse = await chai.request(app).get("/matches");
       // Assert
@@ -29,10 +29,10 @@ describe("Matches tests.", () => {
 
     it("Returns all matches in progress.", async () => {
         // Arrange
-        const mockFindAllReturn = SequelizeMatch.bulkBuild(matchesInProgressFromDB);
-        sinon.stub(SequelizeMatch, "findAll").resolves(mockFindAllReturn);
+        // const mockFindAllReturn = SequelizeMatch.bulkBuild(matchesInProgressFromDB);
+        sinon.stub(SequelizeMatch, "findAll").resolves(matchesInProgressFromDB as any);
         // Act
-        chaiHttpResponse = await chai.request(app).get("/matches?inProgress=false");
+        chaiHttpResponse = await chai.request(app).get("/matches?inProgress=true");
         // Assert
         expect(chaiHttpResponse.status).to.equal(200);
         expect(chaiHttpResponse.body).to.deep.equal(matchesInProgressFromAPI);
@@ -41,8 +41,8 @@ describe("Matches tests.", () => {
 
   it("Returns all matches finished.", async () => {
     // Arrange
-    const mockFindAllReturn = SequelizeMatch.bulkBuild(matchesFinishedFromDB);
-    sinon.stub(SequelizeMatch, "findAll").resolves(mockFindAllReturn);
+    // const mockFindAllReturn = SequelizeMatch.bulkBuild(matchesFinishedFromDB);
+    sinon.stub(SequelizeMatch, "findAll").resolves(matchesFinishedFromDB as any);
     // Act
     chaiHttpResponse = await chai.request(app).get("/matches?inProgress=false");
     // Assert
