@@ -26,7 +26,6 @@ class Validations {
       return res.status(401).json({ message: validToken });
     }
     res.locals.user = validToken;
-    console.log(validToken);
 
     next();
   }
