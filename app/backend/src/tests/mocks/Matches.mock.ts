@@ -184,3 +184,47 @@ export const matchesFinishedFromDB = [
     }
   ]
 
+export const matchFromDB = {
+  "id": 99,
+  "homeTeamId": 6,
+  "homeTeamGoals": 1,
+  "awayTeamId": 1,
+  "awayTeamGoals": 0,
+  "inProgress": true,
+  "homeTeam": {
+    "teamName": "Ferroviária"
+  },
+  "awayTeam": {
+    "teamName": "Avaí/Kindermann"
+  }
+}
+
+export const matchToUpdateFromDB = {
+  "id": 48,
+  "homeTeamId": 13,
+  "homeTeamGoals": 1,
+  "awayTeamId": 2,
+  "awayTeamGoals": 1,
+  "inProgress": true,
+  "homeTeam": {
+    "teamName": "Real Brasília"
+  },
+  "awayTeam": {
+    "teamName": "Bahia"
+  }
+}
+
+export const updatedMatchFromAPI = {
+  "id": 48,
+  "homeTeamId": 13,
+  "homeTeamGoals": 1,
+  "awayTeamId": 2,
+  "awayTeamGoals": 3,
+  "inProgress": true,
+  "homeTeam": {
+    "teamName": "Real Brasília"
+  },
+  "awayTeam": {
+    "teamName": "Bahia"
+  }
+}
