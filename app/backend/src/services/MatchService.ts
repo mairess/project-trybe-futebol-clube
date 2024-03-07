@@ -35,13 +35,12 @@ class MatchService {
 
   public async finishMatch(id: number): Promise<ServiceResponse<ServiceMessage>> {
     const match = await this.matchModel.findById(id);
+    console.log('match', match);
+
     if (match === null) {
       return { status: 'NOT_FOUND', data: { message: notFoundMessage } };
     }
-    const matchToFinish = await this.matchModel.finishMatch(id);
-    if (matchToFinish === null) {
-      return { status: 'NOT_FOUND', data: { message: notFoundMessage } };
-    }
+    await this.matchModel.finishMatch(id);
     return { status: 'SUCCESSFUL', data: { message: 'Finished' } };
   }
 
@@ -50,11 +49,12 @@ class MatchService {
     if (match === null) {
       return { status: 'NOT_FOUND', data: { message: notFoundMessage } };
     }
-    const matchUpdated = await this.matchModel.updateMatch(id, score);
-    if (matchUpdated === null) {
-      return { status: 'NOT_FOUND', data: { message: notFoundMessage } };
-    }
-    return { status: 'SUCCESSFUL', data: matchUpdated };
+    await this.matchModel.updateMatch(id, score);
+    const { awayTeamGoals, awayTeamId, homeTeamGoals, homeTeamId, inProgress } = match;
+    return { status: 'SUCCESSFUL',
+      data: {
+        id, awayTeamGoals, awayTeamId, homeTeamGoals, homeTeamId, inProgress,
+      } };
   }
 
   public async createNewMatch(matchData: IMatch):

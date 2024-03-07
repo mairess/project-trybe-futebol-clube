@@ -104,9 +104,14 @@ describe("Matches tests.", () => {
 
     it('Should update match score.', async () => {
       // Arrange
+      const serviceResponse: ServiceResponse<IMatch> = {
+        status: "SUCCESSFUL",
+        data: updatedMatchFromAPI,
+      };
       sinon.stub(SequelizeMatch, "update").resolves([1]);
+      sinon.stub(MatchService.prototype, 'updateMatch').resolves(serviceResponse);
 
-      const mockUpdatedMatchFromAPI = SequelizeMatch.build(updatedMatchFromAPI)
+      // const mockUpdatedMatchFromAPI = SequelizeMatch.build(updatedMatchFromAPI)
       // Act
       chaiHttpResponse = await chai.request(app)
       .patch("/matches/48")
@@ -114,7 +119,7 @@ describe("Matches tests.", () => {
       .set("authorization", `Bearer ${token}`);
       // Assert    
       expect(chaiHttpResponse.status).to.equal(200);
-      expect(chaiHttpResponse.body).to.deep.equal(mockUpdatedMatchFromAPI.dataValues);
+      expect(chaiHttpResponse.body).to.deep.equal(updatedMatchFromAPI);
     })
   })
 

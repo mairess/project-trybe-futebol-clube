@@ -15,31 +15,31 @@ class MatchController {
     } else {
       serviceResponse = await this.matchService.getAllMatches();
     }
-    res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+    return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
   public async getMatchById(req: Request, res: Response) {
     const { id } = req.params;
     const serviceResponse = await this.matchService.getMatchById(Number(id));
-    res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+    return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
   public async finishMatch(req: Request, res: Response) {
     const { id } = req.params;
     const serviceResponse = await this.matchService.finishMatch(Number(id));
-    res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+    return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
   public async updateMatch(req: Request, res: Response) {
     const { id } = req.params;
     const serviceResponse = await this.matchService.updateMatch(Number(id), req.body);
-    res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+    return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
   public async createNewMatch(req: Request, res: Response) {
     const matchData = req.body;
     const serviceResponse = await this.matchService.createNewMatch(matchData);
-    res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+    return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 }
 

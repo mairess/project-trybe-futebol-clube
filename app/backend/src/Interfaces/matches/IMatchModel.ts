@@ -6,6 +6,6 @@ export interface IMatchModel extends ICRUDModelReader<IMatch> {
   findAllMatchesInProgress(): Promise<IMatch[]>
   findAllMatchesFinished(): Promise<IMatch[]>
   finishMatch(id: number): Promise<void | null>
-  updateMatch(id: number, score: IMatch): Promise<IMatch | null>
+  updateMatch(id: number, score: IMatch): Promise<void>
   createNewMatch(matchData: IMatch): Promise<IMatch>
 }

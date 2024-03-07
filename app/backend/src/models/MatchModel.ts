@@ -61,34 +61,19 @@ class MatchModel implements IMatchModel {
 
   async findById(id: IMatch['id']): Promise<IMatch | null> {
     const dbData = await this.model.findByPk(id);
-    if (dbData === null) return null;
     return dbData;
   }
 
-  async finishMatch(id: IMatch['id']): Promise<void | null> {
-    const dbData = await this.model.findByPk(id);
-    if (dbData === null) return null;
-    dbData.inProgress = false;
-    await dbData.save();
+  async finishMatch(id: IMatch['id']): Promise<void> {
+    await this.model.update({ inProgress: false }, { where: { id } });
   }
 
-  async updateMatch(id: IMatch['id'], score: IMatch): Promise<IMatch | null> {
-    const dbData = await this.model.findByPk(id);
-    if (dbData === null) return null;
-    dbData.homeTeamGoals = score.homeTeamGoals;
-    dbData.awayTeamGoals = score.awayTeamGoals;
-    await dbData.save();
-    return dbData;
+  async updateMatch(id: IMatch['id'], score: IMatch): Promise<void> {
+    await this.model.update(score, { where: { id } });
   }
 
   async createNewMatch(matchData: IMatch): Promise<IMatch> {
-    const match = await this.model.create({
-      homeTeamId: matchData.homeTeamId,
-      homeTeamGoals: matchData.homeTeamGoals,
-      awayTeamId: matchData.awayTeamId,
-      awayTeamGoals: matchData.awayTeamGoals,
-      inProgress: true,
-    });
+    const match = await this.model.create({ ...matchData, inProgress: true });
     return match;
   }
 }
