@@ -90,10 +90,6 @@ describe("Matches tests.", () => {
     })
     it('Should finish match.', async () => {
       // Arrange
-      // const serviceResponse: ServiceResponse<ServiceMessage> = {
-      //   status: "SUCCESSFUL",
-      //   data: { "message": "Finished" },
-      // };
       const mockFindByPkReturn = SequelizeMatch.build(matchFromDB);
       sinon.stub(SequelizeMatch, "findByPk").resolves(mockFindByPkReturn);
       sinon.stub(mockFindByPkReturn, 'save').resolves();
@@ -108,20 +104,15 @@ describe("Matches tests.", () => {
 
     it('Should update match score.', async () => {
       // Arrange
-      // const serviceResponse: ServiceResponse<IMatch> = {
-      //   status: "SUCCESSFUL",
-      //   data: updatedMatchFromAPI,
-      // };
-      const mockFindByPkReturn = SequelizeMatch.build(matchToUpdateFromDB);
-      sinon.stub(SequelizeMatch, "findByPk").resolves(mockFindByPkReturn);
+      sinon.stub(SequelizeMatch, "update").resolves([1]);
+
       const mockUpdatedMatchFromAPI = SequelizeMatch.build(updatedMatchFromAPI)
-      sinon.stub(mockFindByPkReturn, 'save').resolves(mockUpdatedMatchFromAPI);
       // Act
       chaiHttpResponse = await chai.request(app)
       .patch("/matches/48")
       .send({ "homeTeamGoals": 1, "awayTeamGoals": 3 })
       .set("authorization", `Bearer ${token}`);
-      // Assert
+      // Assert    
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.deep.equal(mockUpdatedMatchFromAPI.dataValues);
     })
