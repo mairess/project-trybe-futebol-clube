@@ -81,6 +81,8 @@ describe("Login tests.", () => {
   });
 
   describe("Route /login/role.", () => {
+    afterEach(sinon.restore);
+
     it('Returns "admin" as role.', async () => {
       // Arrange
       sinon.stub(JWT, "sign").returns("token");
@@ -94,7 +96,6 @@ describe("Login tests.", () => {
       // Assert
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.deep.equal({ role: "admin" });
-      afterEach(sinon.restore);
     });
 
     it("Should not return role with invalid token.", async () => {
