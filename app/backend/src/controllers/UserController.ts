@@ -12,7 +12,7 @@ class UserController {
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
-  public async getRole(req: Request, res: Response): Promise<Response> {
+  public async getRole(_req: Request, res: Response): Promise<Response> {
     const serviceResponse = await this.userService.getRole(res.locals.user);
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }

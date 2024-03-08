@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
 import IMatch from '../Interfaces/matches/IMatch';
@@ -59,22 +60,24 @@ class MatchModel implements IMatchModel {
     return dbData;
   }
 
+  async findAllSimultaneous(homeTeamId: number, awayTeamId: number): Promise<IMatch[]> {
+    return this.model.findAll({ where: { id: { [Op.or]: [homeTeamId, awayTeamId] } } });
+  }
+
   async findById(id: IMatch['id']): Promise<IMatch | null> {
-    const dbData = await this.model.findByPk(id);
-    return dbData;
+    return this.model.findByPk(id);
   }
 
   async finishMatch(id: IMatch['id']): Promise<void> {
-    await this.model.update({ inProgress: false }, { where: { id } });
+    this.model.update({ inProgress: false }, { where: { id } });
   }
 
   async updateMatch(id: IMatch['id'], score: IMatch): Promise<void> {
-    await this.model.update(score, { where: { id } });
+    this.model.update(score, { where: { id } });
   }
 
   async createNewMatch(matchData: IMatch): Promise<IMatch> {
-    const match = await this.model.create({ ...matchData, inProgress: true });
-    return match;
+    return this.model.create({ ...matchData, inProgress: true });
   }
 }
 

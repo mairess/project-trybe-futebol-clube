@@ -61,9 +61,8 @@ class MatchService {
     if (awayTeamId === homeTeamId) {
       return { status: 'UNPROCESSABLE_CONTENT', data: equalTeamsMessage };
     }
-    const awayTeam = await this.matchModel.findById(awayTeamId);
-    const homeTeam = await this.matchModel.findById(homeTeamId);
-    if (!awayTeam || !homeTeam) {
+    const teams = await this.matchModel.findAllSimultaneous(homeTeamId, awayTeamId);
+    if (teams && teams.length <= 1) {
       return { status: 'NOT_FOUND', data: { message: 'There is no team with such id!' } };
     }
     const match = await this.matchModel.createNewMatch(matchData);

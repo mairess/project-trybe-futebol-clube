@@ -17,26 +17,20 @@ class UserService {
 
   public async login(data: ILogin): Promise<ServiceResponse<ServiceMessage | IToken>> {
     const user = await this.userModel.findByEmail(data.email);
-    if (user) {
-      if (!bcrypt.compareSync(data.password, user.password)) {
-        return { status: 'UNAUTHORIZED', data: { message: invalidMailOrPassword } };
-      }
-      const { email, role } = user;
-      const token = this.jwtService.sign({ email, role });
-      return { status: 'SUCCESSFUL', data: { token } };
+    if (!user || !bcrypt.compareSync(data.password, user.password)) {
+      return { status: 'UNAUTHORIZED', data: { message: invalidMailOrPassword } };
     }
-    return { status: 'UNAUTHORIZED', data: { message: invalidMailOrPassword } };
+    const token = this.jwtService.sign(user);
+    return { status: 'SUCCESSFUL', data: { token } };
   }
 
   public async getRole(userPayload: IPayload): Promise<ServiceResponse<ServiceMessage | IRole>> {
-    // const { email } = userPayload;
-    // const user = await this.userModel.findByEmail(email);
-    // if (!user) {
-    //   return { status: 'NOT_FOUND', data: { message: 'User not found!' } };
-    // }
-    console.log(this);
-
-    return { status: 'SUCCESSFUL', data: { role: userPayload.role } };
+    const { email } = userPayload;
+    const user = await this.userModel.findByEmail(email);
+    if (!user) {
+      return { status: 'NOT_FOUND', data: { message: 'User not found!' } };
+    }
+    return { status: 'SUCCESSFUL', data: { role: user.role } };
   }
 }
 
