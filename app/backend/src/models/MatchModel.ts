@@ -73,7 +73,7 @@ class MatchModel implements IMatchModel {
   }
 
   async updateMatch(id: IMatch['id'], score: IMatch): Promise<void> {
-    this.model.update(score, { where: { id } });
+    await this.model.update(score, { where: { id } });
   }
 
   async createNewMatch(matchData: IMatch): Promise<IMatch> {
