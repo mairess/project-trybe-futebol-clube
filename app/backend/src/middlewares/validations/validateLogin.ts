@@ -1,5 +1,5 @@
-import { ILogin } from '../../Interfaces/ILogin';
 import schemaLogin from './schemas';
+import { ILogin } from '../../Interfaces/ILogin';
 
 const validateLogin = (keysObjectToValidate: ILogin) => {
   const { error } = schemaLogin.validate(keysObjectToValidate);
