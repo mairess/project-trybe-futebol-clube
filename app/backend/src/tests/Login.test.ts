@@ -11,6 +11,7 @@ import { Response } from "superagent";
 import UserService from "../services/UserService";
 import { ServiceResponse } from "../Interfaces/ServiceResponse";
 import { IRole } from "../Interfaces/IRole";
+import { userFromDB } from "./mocks/Login.mock";
 
 chai.use(chaiHttp);
 
@@ -36,7 +37,7 @@ describe("Login tests.", () => {
       // Arrange
       sinon
         .stub(UserModel.prototype, "findByEmail")
-        .returns(Promise.resolve(null));
+        .resolves(null);
       const body = {
         email: "asdasd@admin.com",
         password: "secret_admin",
@@ -85,14 +86,13 @@ describe("Login tests.", () => {
 
     it('Returns "admin" as role.', async () => {
       // Arrange
-      sinon.stub(JWT, "sign").returns("token");
-      sinon.stub(JWT, "verify").returns({ role: "admin" });
-      const token = JWT.sign({ role: "admin" });
+      sinon.stub(JWT, "verify").returns('byPassJWT');
+      sinon.stub(UserModel.prototype, 'findByEmail').resolves(userFromDB)
       // Act
       chaiHttpResponse = await chai
         .request(app)
         .get("/login/role")
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", 'Bearer strongToken');
       // Assert
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.deep.equal({ role: "admin" });
