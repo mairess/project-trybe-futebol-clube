@@ -35,8 +35,6 @@ class MatchService {
 
   public async finishMatch(id: number): Promise<ServiceResponse<ServiceMessage>> {
     const match = await this.matchModel.findById(id);
-    console.log('match', match);
-
     if (match === null) {
       return { status: 'NOT_FOUND', data: { message: notFoundMessage } };
     }
