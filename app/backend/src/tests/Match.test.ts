@@ -28,7 +28,6 @@ describe("Matches tests.", () => {
     sinon.stub(JWT, "sign").returns("token");
   })
   afterEach(sinon.restore)
-  const token = JWT.sign({ email: "admin@admin.com", role: 'admin' });
   describe("Route /matches.", () => {
     it("Returns all matches.", async () => {
       // Arrange
@@ -37,7 +36,7 @@ describe("Matches tests.", () => {
       // Act
       chaiHttpResponse = await chai.request(app)
       .get("/matches")
-      .set("authorization", `Bearer ${token}`);
+      .set("authorization", 'Bearer token');
       // Assert
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.deep.equal(matchesFromAPI);
@@ -50,7 +49,7 @@ describe("Matches tests.", () => {
         // Act
         chaiHttpResponse = await chai.request(app)
         .get("/matches?inProgress=true")
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", 'Bearer token');
         // Assert
         expect(chaiHttpResponse.status).to.equal(200);
         expect(chaiHttpResponse.body).to.deep.equal(matchesInProgressFromAPI);
@@ -63,7 +62,7 @@ describe("Matches tests.", () => {
         // Act
         chaiHttpResponse = await chai.request(app)
         .get("/matches?inProgress=false")
-        .set("authorization", `Bearer ${token}`);
+        .set("authorization", 'Bearer token');
         // Assert
         expect(chaiHttpResponse.status).to.equal(200);
         expect(chaiHttpResponse.body).to.deep.equal(matchesFinishedFromAPI);
@@ -83,7 +82,7 @@ describe("Matches tests.", () => {
       // Act
       chaiHttpResponse = await chai.request(app)
       .get("/matches/99")
-      .set("authorization", `Bearer ${token}`);
+      .set("authorization", 'Bearer token');
       // Assert
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.deep.equal(matchFromDB);
@@ -96,7 +95,7 @@ describe("Matches tests.", () => {
       // Act
       chaiHttpResponse = await chai.request(app)
       .patch("/matches/99/finish")
-      .set("authorization", `Bearer ${token}`);
+      .set("authorization", 'Bearer token');
       // Assert
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.deep.equal({ "message": "Finished" });
@@ -116,7 +115,7 @@ describe("Matches tests.", () => {
       chaiHttpResponse = await chai.request(app)
       .patch("/matches/48")
       .send({ "homeTeamGoals": 1, "awayTeamGoals": 3 })
-      .set("authorization", `Bearer ${token}`);
+      .set("authorization", 'Bearer token');
       // Assert    
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.deep.equal(updatedMatchFromAPI);
