@@ -51,5 +51,16 @@ describe('Team test.', () => {
       expect(chaiHttpResponse.status).to.equal(404)
       expect(chaiHttpResponse.body).to.deep.equal({ message: "Team not found!" })
     });
+
+    it('Handles internal error when finding team.', async () => {
+      // Arrange
+      const mockCreateReturn = new Error('Internal error');
+      sinon.stub(SequelizeTeam, "findByPk").rejects(mockCreateReturn);
+      // Act
+      chaiHttpResponse = await chai.request(app).get('/teams/45');
+      // Assert
+      expect(chaiHttpResponse.status).to.equal(500)
+      expect(chaiHttpResponse.body).to.deep.equal({ message: "Internal error" })
+    });
   })
 });
