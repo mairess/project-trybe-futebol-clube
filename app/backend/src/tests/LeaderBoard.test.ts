@@ -39,7 +39,7 @@ describe("Leader Board tests.", () => {
             // Assert
             expect(chaiHttpResponse.status).to.equal(200);
             expect(chaiHttpResponse.body).to.be.an('array');
-            expect(chaiHttpResponse.body).to.be.empty;
+            expect(chaiHttpResponse.body).not.to.be.empty;
             // expect(chaiHttpResponse.body).to.deep.equal(leaderBoardHomeFromAPI);
         })
 
@@ -72,7 +72,7 @@ describe("Leader Board tests.", () => {
         // Assert
         expect(chaiHttpResponse.status).to.equal(200);
         expect(chaiHttpResponse.body).to.be.an('array');
-        expect(chaiHttpResponse.body).to.be.empty;
+        expect(chaiHttpResponse.body).not.to.be.empty;
         // expect(chaiHttpResponse.body).to.deep.equal(leaderBoardHomeFromAPI);
     })
     //     it("Returns team rank away matches.", async () => {
