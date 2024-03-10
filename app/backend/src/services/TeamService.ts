@@ -7,8 +7,8 @@ class TeamService {
   constructor(private teamModel: ITeamModel = new TeamsModel()) { }
 
   public async getAllTeams(): Promise<ServiceResponse<ITeam[]>> {
-    const AllTeams = await this.teamModel.findAll();
-    return { status: 'SUCCESSFUL', data: AllTeams };
+    const allTeams = await this.teamModel.findAll();
+    return { status: 'SUCCESSFUL', data: allTeams };
   }
 
   public async getTeamById(id: number): Promise<ServiceResponse<ITeam>> {
