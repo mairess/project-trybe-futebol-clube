@@ -5,8 +5,13 @@ import LeaderboardSerice from '../services/LeaderboardService';
 class LeaderboardController {
   constructor(private leaderboardService = new LeaderboardSerice()) {}
 
-  public async getLeaderBoard(_req: Request, res: Response) {
-    const serviceResponse = await this.leaderboardService.getFullLeaderboardSorted();
+  public async getHomeLeaderBoard(_req: Request, res: Response) {
+    const serviceResponse = await this.leaderboardService.getHomeLeaderdboard();
+    return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+  }
+
+  public async getAwayLeaderBoard(_req: Request, res: Response) {
+    const serviceResponse = await this.leaderboardService.getAwayLeaderdboard();
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 }
