@@ -14,15 +14,15 @@ const getVictories = (data: IMatchInfos[], name: string): number => {
 };
 
 const getLosses = (data: IMatchInfos[], name: string): number => {
-  const victories = data.filter((match: IMatchInfos) =>
+  const losses = data.filter((match: IMatchInfos) =>
     (match.awayTeam.teamName === name && match.awayTeamGoals < match.homeTeamGoals)).length;
-  return victories;
+  return losses;
 };
 
 const getDraws = (data: IMatchInfos[], name: string): number => {
-  const victories = data.filter((match: IMatchInfos) =>
+  const draws = data.filter((match: IMatchInfos) =>
     (match.awayTeam.teamName === name && match.awayTeamGoals === match.homeTeamGoals)).length;
-  return victories;
+  return draws;
 };
 
 const getPoints = (victories: number, draws: number): number => {
@@ -31,17 +31,17 @@ const getPoints = (victories: number, draws: number): number => {
 };
 
 const getGoalsFavor = (data: IMatchInfos[], name: string): number => {
-  const homeGoals = data.filter((match: IMatchInfos) => match.awayTeam.teamName === name)
+  const goalsFavor = data.filter((match: IMatchInfos) => match.awayTeam.teamName === name)
     .reduce((acc, match) => acc + match.awayTeamGoals, 0);
 
-  return homeGoals;
+  return goalsFavor;
 };
 
 const getGoalsOwn = (data: IMatchInfos[], name: string): number => {
-  const awayGoalsOwn = data.filter((match: IMatchInfos) => match.awayTeam.teamName === name)
+  const goalsOwn = data.filter((match: IMatchInfos) => match.awayTeam.teamName === name)
     .reduce((acc, match) => acc + match.homeTeamGoals, 0);
 
-  return awayGoalsOwn;
+  return goalsOwn;
 };
 
 const getEfficiency = (points: number, games: number) =>
