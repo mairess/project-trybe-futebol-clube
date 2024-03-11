@@ -6,12 +6,17 @@ class LeaderboardController {
   constructor(private leaderboardService = new LeaderboardSerice()) {}
 
   public async getHomeLeaderBoard(_req: Request, res: Response) {
-    const serviceResponse = await this.leaderboardService.getHomeLeaderdboard();
+    const serviceResponse = await this.leaderboardService.getHomeLeaderboard();
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
   public async getAwayLeaderBoard(_req: Request, res: Response) {
-    const serviceResponse = await this.leaderboardService.getAwayLeaderdboard();
+    const serviceResponse = await this.leaderboardService.getAwayLeaderboard();
+    return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+  }
+
+  public async getLeaderboard(req: Request, res: Response) {
+    const serviceResponse = await this.leaderboardService.getLeaderboard();
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 }

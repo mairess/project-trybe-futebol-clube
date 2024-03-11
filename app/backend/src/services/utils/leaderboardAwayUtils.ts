@@ -47,9 +47,8 @@ const getGoalsOwn = (data: IMatchInfos[], name: string): number => {
 const getEfficiency = (points: number, games: number) =>
   Number(((points / (games * 3)) * 100).toFixed(2));
 
-const formAwayLeaderboard = async (data: IMatchInfos[]): Promise<ILeaderboardFull[]> => {
-  const leaderboardPromises = data.map(async (match: IMatchInfos) => {
-    const name = match.awayTeam.teamName;
+const formAwayBoard = async (data: IMatchInfos[], names: string[]): Promise<ILeaderboardFull[]> => {
+  const leaderboardPromises = names.map(async (name: string) => {
     const victories = getVictories(data, name);
     const draws = getDraws(data, name);
     return { name,
@@ -67,4 +66,4 @@ const formAwayLeaderboard = async (data: IMatchInfos[]): Promise<ILeaderboardFul
   return resolved;
 };
 
-export default formAwayLeaderboard;
+export default formAwayBoard;

@@ -3,26 +3,32 @@ import IMatchInfos from '../../Interfaces/matches/IMatchInfos';
 
 const getGames = (data: IMatchInfos[], name: string): number => {
   const totalGames = data.filter((match: IMatchInfos) =>
-    match.homeTeam.teamName === name).length;
+    match.awayTeam.teamName === name || match.homeTeam.teamName === name).length;
   return totalGames;
 };
 
 const getVictories = (data: IMatchInfos[], name: string): number => {
-  const victories = data.filter((match: IMatchInfos) =>
-    (match.homeTeam.teamName === name && match.homeTeamGoals > match.awayTeamGoals)).length;
+  const victories = data.filter((match: IMatchInfos) => (
+    match.awayTeam.teamName === name && match.awayTeamGoals > match.homeTeamGoals
+  ) || (
+    match.homeTeam.teamName === name && match.homeTeamGoals > match.awayTeamGoals)).length;
   return victories;
 };
 
 const getLosses = (data: IMatchInfos[], name: string): number => {
-  const victories = data.filter((match: IMatchInfos) =>
-    (match.homeTeam.teamName === name && match.homeTeamGoals < match.awayTeamGoals)).length;
-  return victories;
+  const losses = data.filter((match: IMatchInfos) => (
+    match.awayTeam.teamName === name && match.awayTeamGoals < match.homeTeamGoals
+  ) || (
+    match.homeTeam.teamName === name && match.homeTeamGoals < match.awayTeamGoals
+  )).length;
+  return losses;
 };
 
 const getDraws = (data: IMatchInfos[], name: string): number => {
-  const victories = data.filter((match: IMatchInfos) =>
-    (match.homeTeam.teamName === name && match.homeTeamGoals === match.awayTeamGoals)).length;
-  return victories;
+  const draws = data.filter((match: IMatchInfos) =>
+    (match.awayTeamGoals === match.homeTeamGoals)
+    && (match.awayTeam.teamName === name || match.homeTeam.teamName === name)).length;
+  return draws;
 };
 
 const getPoints = (victories: number, draws: number): number => {
@@ -34,20 +40,26 @@ const getGoalsFavor = (data: IMatchInfos[], name: string): number => {
   const homeGoals = data.filter((match: IMatchInfos) => match.homeTeam.teamName === name)
     .reduce((acc, match) => acc + match.homeTeamGoals, 0);
 
-  return homeGoals;
+  const awayGoals = data.filter((match: IMatchInfos) => match.awayTeam.teamName === name)
+    .reduce((acc, match) => acc + match.awayTeamGoals, 0);
+
+  return homeGoals + awayGoals;
 };
 
 const getGoalsOwn = (data: IMatchInfos[], name: string): number => {
   const homeGoalsOwn = data.filter((match: IMatchInfos) => match.homeTeam.teamName === name)
     .reduce((acc, match) => acc + match.awayTeamGoals, 0);
 
-  return homeGoalsOwn;
+  const awayGoalsOwn = data.filter((match: IMatchInfos) => match.awayTeam.teamName === name)
+    .reduce((acc, match) => acc + match.homeTeamGoals, 0);
+
+  return homeGoalsOwn + awayGoalsOwn;
 };
 
 const getEfficiency = (points: number, games: number) =>
   Number(((points / (games * 3)) * 100).toFixed(2));
 
-const formHomeBoard = async (data: IMatchInfos[], names: string[]): Promise<ILeaderboardFull[]> => {
+const formGeneral = async (data: IMatchInfos[], names: string[]): Promise<ILeaderboardFull[]> => {
   const leaderboardPromises = names.map(async (name: string) => {
     const victories = getVictories(data, name);
     const draws = getDraws(data, name);
@@ -66,4 +78,4 @@ const formHomeBoard = async (data: IMatchInfos[], names: string[]): Promise<ILea
   return resolved;
 };
 
-export default formHomeBoard;
+export default formGeneral;

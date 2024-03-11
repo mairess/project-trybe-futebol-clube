@@ -3,32 +3,49 @@ import { ILeaderboardFull } from '../Interfaces/leaderboard/ILeaderboard';
 import { IMatchModelFinished } from '../Interfaces/matches/IMatchModel';
 import MatchModel from '../models/MatchModel';
 import IMatchInfos from '../Interfaces/matches/IMatchInfos';
-import formHomeLeaderboard from './utils/leaderboardHomeUtils';
-import formAwayLeaderboard from './utils/leaderboardAwayUtils';
+import formHomeBoard from './utils/leaderboardHomeUtils';
+import formAwayBoard from './utils/leaderboardAwayUtils';
 import sortLeaderboard from './utils/sortLeaderboard';
+import formGeneral from './utils/leaderboardGeneralUtils';
+import TeamModel from '../models/TeamModel';
+import ITeam from '../Interfaces/teams/ITeam';
 
 class LeaderboardSerice {
+  protected teamModel: TeamModel;
   constructor(private leaderboardModel: IMatchModelFinished = new MatchModel()) {
+    this.teamModel = new TeamModel();
   }
 
-  public async getHomeLeaderdboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
-    const allMatches = await this.leaderboardModel.findAllMatchesFinished() as IMatchInfos[];
-    const duplicatedArray = await formHomeLeaderboard(allMatches);
-    const filtered: ILeaderboardFull[] = duplicatedArray
-      .filter((boardInfos: ILeaderboardFull, index: number) => duplicatedArray
-        .findIndex((t: ILeaderboardFull) => (t.name === boardInfos.name)) === index);
-
-    return { status: 'SUCCESSFUL', data: sortLeaderboard(filtered) };
+  private async getTeams(): Promise<ITeam[]> {
+    const teamsName = await this.teamModel.findAll();
+    return teamsName;
   }
 
-  public async getAwayLeaderdboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
-    const allMatches = await this.leaderboardModel.findAllMatchesFinished() as IMatchInfos[];
-    const duplicatedArray = await formAwayLeaderboard(allMatches);
-    const filtered: ILeaderboardFull[] = duplicatedArray
-      .filter((boardInfos: ILeaderboardFull, index: number) => duplicatedArray
-        .findIndex((t: ILeaderboardFull) => (t.name === boardInfos.name)) === index);
+  private async getTeamNames(): Promise<string[]> {
+    const teams = this.getTeams();
+    const teamNames = (await teams).map((team) => team.teamName);
+    return teamNames;
+  }
 
-    return { status: 'SUCCESSFUL', data: sortLeaderboard(filtered) };
+  public async getHomeLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
+    const names = await this.getTeamNames();
+    const allMatches = await this.leaderboardModel.findAllMatchesFinished() as IMatchInfos[];
+    const leaderboardHome = await formHomeBoard(allMatches, names);
+    return { status: 'SUCCESSFUL', data: sortLeaderboard(leaderboardHome) };
+  }
+
+  public async getAwayLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
+    const names = await this.getTeamNames();
+    const allMatches = await this.leaderboardModel.findAllMatchesFinished() as IMatchInfos[];
+    const leaderboardAway = await formAwayBoard(allMatches, names);
+    return { status: 'SUCCESSFUL', data: sortLeaderboard(leaderboardAway) };
+  }
+
+  public async getLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
+    const names = await this.getTeamNames();
+    const allMatches = await this.leaderboardModel.findAllMatchesFinished() as IMatchInfos[];
+    const leaderboardGeneral = await formGeneral(allMatches, names);
+    return { status: 'SUCCESSFUL', data: sortLeaderboard(leaderboardGeneral) };
   }
 }
 
