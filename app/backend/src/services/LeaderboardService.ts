@@ -10,7 +10,7 @@ import formGeneral from './utils/leaderboardGeneralUtils';
 import TeamModel from '../models/TeamModel';
 import ITeam from '../Interfaces/teams/ITeam';
 
-class LeaderboardSerice {
+class LeaderboardService {
   protected teamModel: TeamModel;
   constructor(private leaderboardModel: IMatchModelFinished = new MatchModel()) {
     this.teamModel = new TeamModel();
@@ -49,4 +49,4 @@ class LeaderboardSerice {
   }
 }
 
-export default LeaderboardSerice;
+export default LeaderboardService;
