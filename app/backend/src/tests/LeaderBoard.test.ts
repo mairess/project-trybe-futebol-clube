@@ -13,7 +13,7 @@ describe("Leader Board tests.", () => {
     let chaiHttpResponse: Response;
     afterEach(sinon.restore);
     describe('Route /leaderBoard/home', () => {
-        it("Returns rank from home matches.", async () => {
+        it("Returns leaderBoard from home matches.", async () => {
             // Arrange
             // Act
             chaiHttpResponse = await chai.request(app).get('/leaderboard/home');
@@ -25,11 +25,22 @@ describe("Leader Board tests.", () => {
     })
 
     describe('Route /leaderBoard/away', () => {
-        it("Returns rank from away matches.", async () => {
+        it("Returns leaderBoard from away matches.", async () => {
             // Arrange
             // Act
             chaiHttpResponse = await chai.request(app).get('/leaderboard/away');
+            // Assert
+            expect(chaiHttpResponse.status).to.equal(200);
+            expect(chaiHttpResponse.body).to.be.an('array');
+            expect(chaiHttpResponse.body).not.to.be.empty;
+        })
+    })
 
+    describe('Route /leaderBoard', () => {
+        it("Returns general leaderBoard.", async () => {
+            // Arrange
+            // Act
+            chaiHttpResponse = await chai.request(app).get('/leaderboard');
             // Assert
             expect(chaiHttpResponse.status).to.equal(200);
             expect(chaiHttpResponse.body).to.be.an('array');
