@@ -16,7 +16,7 @@ class LeaderboardController {
   }
 
   public async getLeaderboard(req: Request, res: Response) {
-    const serviceResponse = await this.leaderboardService.getLeaderboard();
+    const serviceResponse = await this.leaderboardService.getGeneralLeaderboard();
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 }
