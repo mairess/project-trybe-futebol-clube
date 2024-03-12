@@ -21,11 +21,12 @@ class Validations {
       return res.status(401).json({ message: 'Token not found' });
     }
     const tokenWithoutBearer = token.split(' ')[1];
-    const validToken = JWT.verify(tokenWithoutBearer);
-    if (validToken === 'Token must be a valid token') {
-      return res.status(401).json({ message: validToken });
+    const payload = JWT.verify(tokenWithoutBearer);
+
+    if (payload === 'Token must be a valid token') {
+      return res.status(401).json({ message: payload });
     }
-    res.locals.user = validToken;
+    res.locals.user = payload;
 
     next();
   }

@@ -1,8 +1,12 @@
 import { Request, Response, Router } from 'express';
+import MatchModel from '../models/MatchModel';
+import MatchService from '../services/MatchService';
 import MatchController from '../controllers/MatchController';
 import Validations from '../middlewares/Validations';
 
-const matchController = new MatchController();
+const matchModel = new MatchModel();
+const matchService = new MatchService(matchModel);
+const matchController = new MatchController(matchService);
 
 const router = Router();
 

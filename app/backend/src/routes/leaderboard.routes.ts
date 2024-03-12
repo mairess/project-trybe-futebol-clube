@@ -1,7 +1,13 @@
 import { Request, Response, Router } from 'express';
+import TeamModel from '../models/TeamModel';
+import MatchModel from '../models/MatchModel';
+import LeaderboardService from '../services/LeaderboardService';
 import LeaderboardController from '../controllers/LeaderboardController';
 
-const leaderboardController = new LeaderboardController();
+const matchModel = new MatchModel();
+const teamModel = new TeamModel();
+const leaderboardService = new LeaderboardService(matchModel, teamModel);
+const leaderboardController = new LeaderboardController(leaderboardService);
 
 const router = Router();
 

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
+import ITeamService from '../Interfaces/teams/ITeamService';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
-import TeamService from '../services/TeamService';
 
 class TeamController {
-  constructor(private teamService = new TeamService()) {}
+  constructor(private teamService: ITeamService) {}
 
   public async getAllTeams(_req: Request, res: Response) {
     const serviceResponse = await this.teamService.getAllTeams();

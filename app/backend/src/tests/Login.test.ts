@@ -86,7 +86,7 @@ describe("Login tests.", () => {
 
     it('Returns "admin" as role.', async () => {
       // Arrange
-      sinon.stub(JWT, "verify").returns('byPassJWT');
+      sinon.stub(JWT, "verify").returns({ email: 'admin@admin.com', role: "admin" });
       sinon.stub(UserModel.prototype, 'findByEmail').resolves(userFromDB)
       // Act
       chaiHttpResponse = await chai

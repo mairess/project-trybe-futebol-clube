@@ -1,8 +1,12 @@
 import { Router } from 'express';
+import UserModel from '../models/UserModel';
+import UserService from '../services/UserService';
 import UsersController from '../controllers/UserController';
 import Validations from '../middlewares/Validations';
 
-const userController = new UsersController();
+const userModel = new UserModel();
+const userService = new UserService(userModel);
+const userController = new UsersController(userService);
 
 const router = Router();
 

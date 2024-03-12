@@ -1,11 +1,9 @@
 import { Request, Response } from 'express';
-import UserService from '../services/UserService';
+import IUserService from '../Interfaces/users/IUserService';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
 
 class UserController {
-  constructor(
-    private userService = new UserService(),
-  ) { }
+  constructor(private userService: IUserService) { }
 
   public async login(req: Request, res: Response): Promise<Response> {
     const serviceResponse = await this.userService.login(req.body);

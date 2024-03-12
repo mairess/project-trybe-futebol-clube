@@ -1,10 +1,9 @@
 import ITeam from '../Interfaces/teams/ITeam';
 import { ITeamModel } from '../Interfaces/teams/ITeamModel';
-import TeamsModel from '../models/TeamModel';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
 
 class TeamService {
-  constructor(private teamModel: ITeamModel = new TeamsModel()) { }
+  constructor(private teamModel: ITeamModel) { }
 
   public async getAllTeams(): Promise<ServiceResponse<ITeam[]>> {
     const allTeams = await this.teamModel.findAll();

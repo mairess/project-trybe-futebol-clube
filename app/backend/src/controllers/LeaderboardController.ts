@@ -3,7 +3,7 @@ import mapStatusHTTP from '../utils/mapStatusHTTP';
 import LeaderboardService from '../services/LeaderboardService';
 
 class LeaderboardController {
-  constructor(private leaderboardService = new LeaderboardService()) {}
+  constructor(private leaderboardService: LeaderboardService) {}
 
   public async getHomeLeaderBoard(_req: Request, res: Response) {
     const serviceResponse = await this.leaderboardService.getHomeLeaderboard();

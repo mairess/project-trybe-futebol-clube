@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
+import IMatchService from '../Interfaces/matches/IMatchService';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
-import MatchService from '../services/MatchService';
 
 class MatchController {
-  constructor(private matchService = new MatchService()) {}
+  constructor(private matchService: IMatchService) {}
 
   public async getAllMatches(req: Request, res: Response) {
     const { inProgress } = req.query;

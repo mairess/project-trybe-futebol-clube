@@ -1,14 +1,11 @@
 import IMatch from '../Interfaces/matches/IMatch';
 import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
-import MatchModel from '../models/MatchModel';
 
 const notFoundMessage = 'Match not found!';
 const equalTeamsMessage = { message: 'It is not possible to create a match with two equal teams' };
 class MatchService {
-  constructor(
-    private matchModel: IMatchModel = new MatchModel(),
-  ) { }
+  constructor(private matchModel: IMatchModel) { }
 
   public async getAllMatches(): Promise<ServiceResponse<IMatch[]>> {
     const AllMatches = await this.matchModel.findAll();
