@@ -3,15 +3,18 @@ import { ITeamModel } from '../Interfaces/teams/ITeamModel';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
 
 class TeamService {
-  constructor(private teamModel: ITeamModel) { }
+  #teamModel: ITeamModel;
+  constructor(teamModel: ITeamModel) {
+    this.#teamModel = teamModel;
+  }
 
-  public async getAllTeams(): Promise<ServiceResponse<ITeam[]>> {
-    const allTeams = await this.teamModel.findAll();
+  async getAllTeams(): Promise<ServiceResponse<ITeam[]>> {
+    const allTeams = await this.#teamModel.findAll();
     return { status: 'SUCCESSFUL', data: allTeams };
   }
 
-  public async getTeamById(id: number): Promise<ServiceResponse<ITeam>> {
-    const team = await this.teamModel.findById(id);
+  async getTeamById(id: number): Promise<ServiceResponse<ITeam>> {
+    const team = await this.#teamModel.findById(id);
     if (team === null) {
       return { status: 'NOT_FOUND', data: { message: 'Team not found!' } };
     }

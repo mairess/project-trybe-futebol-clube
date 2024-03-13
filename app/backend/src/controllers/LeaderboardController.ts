@@ -3,20 +3,23 @@ import mapStatusHTTP from '../utils/mapStatusHTTP';
 import LeaderboardService from '../services/LeaderboardService';
 
 class LeaderboardController {
-  constructor(private leaderboardService: LeaderboardService) {}
+  #leaderboardService: LeaderboardService;
+  constructor(leaderboardService: LeaderboardService) {
+    this.#leaderboardService = leaderboardService;
+  }
 
-  public async getHomeLeaderBoard(_req: Request, res: Response) {
-    const serviceResponse = await this.leaderboardService.getHomeLeaderboard();
+  async getHomeLeaderBoard(_req: Request, res: Response) {
+    const serviceResponse = await this.#leaderboardService.getHomeLeaderboard();
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
-  public async getAwayLeaderBoard(_req: Request, res: Response) {
-    const serviceResponse = await this.leaderboardService.getAwayLeaderboard();
+  async getAwayLeaderBoard(_req: Request, res: Response) {
+    const serviceResponse = await this.#leaderboardService.getAwayLeaderboard();
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
-  public async getLeaderboard(req: Request, res: Response) {
-    const serviceResponse = await this.leaderboardService.getGeneralLeaderboard();
+  async getLeaderboard(req: Request, res: Response) {
+    const serviceResponse = await this.#leaderboardService.getGeneralLeaderboard();
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 }

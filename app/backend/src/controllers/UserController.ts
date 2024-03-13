@@ -3,15 +3,18 @@ import IUserService from '../Interfaces/users/IUserService';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
 
 class UserController {
-  constructor(private userService: IUserService) { }
+  #userService: IUserService;
+  constructor(userService: IUserService) {
+    this.#userService = userService;
+  }
 
-  public async login(req: Request, res: Response): Promise<Response> {
-    const serviceResponse = await this.userService.login(req.body);
+  async login(req: Request, res: Response): Promise<Response> {
+    const serviceResponse = await this.#userService.login(req.body);
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
-  public async getRole(_req: Request, res: Response): Promise<Response> {
-    const serviceResponse = await this.userService.getRole(res.locals.user);
+  async getRole(_req: Request, res: Response): Promise<Response> {
+    const serviceResponse = await this.#userService.getRole(res.locals.user);
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 }

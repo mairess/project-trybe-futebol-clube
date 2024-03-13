@@ -9,13 +9,13 @@ import JWT from '../utils/JWT';
 const invalidMailOrPassword = 'Invalid email or password';
 
 class UserService {
-  constructor(
-    private userModel: IUserModel,
-    private jwtService = JWT,
-  ) { }
+  #userModel: IUserModel;
+  constructor(userModel: IUserModel, private jwtService = JWT) {
+    this.#userModel = userModel;
+  }
 
-  public async login(data: ILogin): Promise<ServiceResponse<ServiceMessage | IToken>> {
-    const user = await this.userModel.findByEmail(data.email);
+  async login(data: ILogin): Promise<ServiceResponse<ServiceMessage | IToken>> {
+    const user = await this.#userModel.findByEmail(data.email);
     if (!user || !bcrypt.compareSync(data.password, user.password)) {
       return { status: 'UNAUTHORIZED', data: { message: invalidMailOrPassword } };
     }
@@ -23,9 +23,9 @@ class UserService {
     return { status: 'SUCCESSFUL', data: { token } };
   }
 
-  public async getRole(userPayload: IPayload): Promise<ServiceResponse<ServiceMessage | IRole>> {
+  async getRole(userPayload: IPayload): Promise<ServiceResponse<ServiceMessage | IRole>> {
     const { email, role } = userPayload;
-    const user = await this.userModel.findByEmail(email);
+    const user = await this.#userModel.findByEmail(email);
     if (!user) {
       return { status: 'NOT_FOUND', data: { message: 'User not found!' } };
     }

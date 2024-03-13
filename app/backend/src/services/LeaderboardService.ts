@@ -9,13 +9,15 @@ import LeaderboardAway from '../entities/LeaderboardAway';
 import LeaderboardGeneral from '../entities/LeaderboardGeneral';
 
 class LeaderboardService {
-  constructor(
-    private matchModel: IMatchModelFinished,
-    private teamModel: ITeamModel,
-  ) { }
+  #matchModel: IMatchModelFinished;
+  #teamModel: ITeamModel;
+  constructor(matchModel: IMatchModelFinished, teamModel: ITeamModel) {
+    this.#matchModel = matchModel;
+    this.#teamModel = teamModel;
+  }
 
   async #getTeamNames(): Promise<ITeam[]> {
-    const teams = await this.teamModel.findAll();
+    const teams = await this.#teamModel.findAll();
     return teams;
   }
 
@@ -31,7 +33,7 @@ class LeaderboardService {
 
   async getHomeLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
     const teams = await this.#getTeamNames();
-    const allMatches = await this.matchModel.findAllMatchesFinished() as IMatchInfos[];
+    const allMatches = await this.#matchModel.findAllMatchesFinished() as IMatchInfos[];
 
     let leaderboardHome = teams.map((team: ITeam) => {
       const leaderboard = new LeaderboardHome(team, allMatches);
@@ -44,7 +46,7 @@ class LeaderboardService {
 
   async getAwayLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
     const teams = await this.#getTeamNames();
-    const allMatches = await this.matchModel.findAllMatchesFinished() as IMatchInfos[];
+    const allMatches = await this.#matchModel.findAllMatchesFinished() as IMatchInfos[];
 
     let leaderboardAway = teams.map((team: ITeam) => {
       const leaderboard = new LeaderboardAway(team, allMatches);
@@ -56,7 +58,7 @@ class LeaderboardService {
 
   async getGeneralLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
     const teams = await this.#getTeamNames();
-    const allMatches = await this.matchModel.findAllMatchesFinished() as IMatchInfos[];
+    const allMatches = await this.#matchModel.findAllMatchesFinished() as IMatchInfos[];
 
     let leaderboardGeneral = teams.map((team: ITeam) => {
       const leaderboard = new LeaderboardGeneral(team, allMatches);
