@@ -10,45 +10,45 @@ class LeaderboardGeneral {
       this.#matches = matches;
     }
 
-    #getGames = (): number => {
+    #getGames(): number {
       const totalGames = this.#matches.filter((match: IMatchInfos) =>
         match.awayTeam.teamName === this.#team.teamName
         || match.homeTeam.teamName === this.#team.teamName).length;
       return totalGames;
-    };
+    }
 
-    #getVictories = (): number => {
+    #getVictories(): number {
       const victories = this.#matches.filter((match: IMatchInfos) => (
         match.awayTeam.teamName === this.#team.teamName && match.awayTeamGoals > match.homeTeamGoals
       ) || (
         match.homeTeam.teamName === this.#team.teamName
         && match.homeTeamGoals > match.awayTeamGoals)).length;
       return victories;
-    };
+    }
 
-    #getLosses = (): number => {
+    #getLosses(): number {
       const losses = this.#matches.filter((match: IMatchInfos) => (
         match.awayTeam.teamName === this.#team.teamName && match.awayTeamGoals < match.homeTeamGoals
       ) || (
         match.homeTeam.teamName === this.#team.teamName && match.homeTeamGoals < match.awayTeamGoals
       )).length;
       return losses;
-    };
+    }
 
-    #getDraws = (): number => {
+    #getDraws(): number {
       const draws = this.#matches.filter((match: IMatchInfos) =>
         (match.awayTeamGoals === match.homeTeamGoals)
           && (match.awayTeam.teamName === this.#team.teamName
             || match.homeTeam.teamName === this.#team.teamName)).length;
       return draws;
-    };
+    }
 
-    #getPoints = (): number => {
+    #getPoints(): number {
       const victoryPoints = this.#getVictories() * 3;
       return victoryPoints + this.#getDraws();
-    };
+    }
 
-    #getGoalsFavor = (): number => {
+    #getGoalsFavor(): number {
       const homeGoals = this.#matches.filter((match: IMatchInfos) =>
         match.homeTeam.teamName === this.#team.teamName)
         .reduce((acc, match) => acc + match.homeTeamGoals, 0);
@@ -58,9 +58,9 @@ class LeaderboardGeneral {
         .reduce((acc, match) => acc + match.awayTeamGoals, 0);
 
       return homeGoals + awayGoals;
-    };
+    }
 
-    #getGoalsOwn = (): number => {
+    #getGoalsOwn(): number {
       const homeGoalsOwn = this.#matches.filter((match: IMatchInfos) =>
         match.homeTeam.teamName === this.#team.teamName)
         .reduce((acc, match) => acc + match.awayTeamGoals, 0);
@@ -70,10 +70,11 @@ class LeaderboardGeneral {
         .reduce((acc, match) => acc + match.homeTeamGoals, 0);
 
       return homeGoalsOwn + awayGoalsOwn;
-    };
+    }
 
-    #getEfficiency = () =>
-      Number(((this.#getPoints() / (this.#getGames() * 3)) * 100).toFixed(2));
+    #getEfficiency() {
+      return Number(((this.#getPoints() / (this.#getGames() * 3)) * 100).toFixed(2));
+    }
 
     getLeadboardObject(): ILeaderboardFull {
       return {

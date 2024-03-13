@@ -4,7 +4,6 @@ import { ServiceResponse } from '../Interfaces/ServiceResponse';
 import { ILeaderboardFull } from '../Interfaces/leaderboard/ILeaderboard';
 import { IMatchModelFinished } from '../Interfaces/matches/IMatchModel';
 import IMatchInfos from '../Interfaces/matches/IMatchInfos';
-import sortLeaderboard from './utils/sortLeaderboard';
 import ITeam from '../Interfaces/teams/ITeam';
 import LeaderboardAway from '../entities/LeaderboardAway';
 import LeaderboardGeneral from '../entities/LeaderboardGeneral';
@@ -15,7 +14,7 @@ class LeaderboardService {
     private teamModel: ITeamModel,
   ) { }
 
-  private async getTeamNames(): Promise<ITeam[]> {
+  async #getTeamNames(): Promise<ITeam[]> {
     const teams = await this.teamModel.findAll();
     return teams;
   }
@@ -30,8 +29,8 @@ class LeaderboardService {
     return sorted;
   };
 
-  public async getHomeLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
-    const teams = await this.getTeamNames();
+  async getHomeLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
+    const teams = await this.#getTeamNames();
     const allMatches = await this.matchModel.findAllMatchesFinished() as IMatchInfos[];
 
     let leaderboardHome = teams.map((team: ITeam) => {
@@ -40,11 +39,11 @@ class LeaderboardService {
     });
 
     leaderboardHome = this.#getSortedLeaderboard(leaderboardHome);
-    return { status: 'SUCCESSFUL', data: sortLeaderboard(leaderboardHome) };
+    return { status: 'SUCCESSFUL', data: leaderboardHome };
   }
 
-  public async getAwayLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
-    const teams = await this.getTeamNames();
+  async getAwayLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
+    const teams = await this.#getTeamNames();
     const allMatches = await this.matchModel.findAllMatchesFinished() as IMatchInfos[];
 
     let leaderboardAway = teams.map((team: ITeam) => {
@@ -52,11 +51,11 @@ class LeaderboardService {
       return leaderboard.getLeadboardObject();
     });
     leaderboardAway = this.#getSortedLeaderboard(leaderboardAway);
-    return { status: 'SUCCESSFUL', data: sortLeaderboard(leaderboardAway) };
+    return { status: 'SUCCESSFUL', data: leaderboardAway };
   }
 
-  public async getGeneralLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
-    const teams = await this.getTeamNames();
+  async getGeneralLeaderboard(): Promise<ServiceResponse<ILeaderboardFull[]>> {
+    const teams = await this.#getTeamNames();
     const allMatches = await this.matchModel.findAllMatchesFinished() as IMatchInfos[];
 
     let leaderboardGeneral = teams.map((team: ITeam) => {
@@ -64,7 +63,7 @@ class LeaderboardService {
       return leaderboard.getLeadboardObject();
     });
     leaderboardGeneral = this.#getSortedLeaderboard(leaderboardGeneral);
-    return { status: 'SUCCESSFUL', data: sortLeaderboard(leaderboardGeneral) };
+    return { status: 'SUCCESSFUL', data: leaderboardGeneral };
   }
 }
 
