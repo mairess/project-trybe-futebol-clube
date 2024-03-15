@@ -8,5 +8,6 @@ Este é um projeto full e consiste em um website informativo sobre partidas e cl
 
 - `Dockerização` dos apps.
 - Modelagem de dados `MySQL` com `Sequelize`.
+- Criação e associação de tabelas usando `models` do `Sequelize`.
 - Construção de `API REST`.
 - Construção de um `CRUD` com `TypeScript`, utilizando `ORM`;
