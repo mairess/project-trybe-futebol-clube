@@ -1,10 +1,12 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# <p align="center">Projeto Trybe Futebol Clube</p>
+
+## Contexto
+
+Este é um projeto full e consiste em um website informativo sobre partidas e classificações de futebol, onde o frontend já veio pronto. Minha responsabilidade foi desenvolver o backend utilizando o método `TDD` além da integração das aplicações via `docker-compose` e `teste de integração`.
+
+## Competências avaliadas
+
+- `Dockerização` dos apps.
+- Modelagem de dados `MySQL` com `Sequelize`.
+- Construção de `API REST`.
+- Construção de um `CRUD` com `TypeScript`, utilizando `ORM`;
