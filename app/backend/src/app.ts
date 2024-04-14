@@ -1,10 +1,15 @@
 import * as express from 'express';
 import 'express-async-errors';
 import * as cors from 'cors';
+import * as fs from 'fs';
+import * as swaggerUi from 'swagger-ui-express';
+import * as yaml from 'js-yaml';
 import router from './routes';
 
 import errorMiddleware from './middlewares/errorMiddleware';
 
+const raw = fs.readFileSync('swagger.yaml', 'utf-8');
+const swaggerDocument = yaml.load(raw) as swaggerUi.JsonObject;
 class App {
   public app: express.Express;
 
@@ -18,6 +23,7 @@ class App {
     this.routes();
 
     // Não remover essa rota
+    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     this.app.get('/', (req, res) => res.json({ ok: true }));
 
     // Não remova esse middleware de erro, mas fique a vontade para customizá-lo

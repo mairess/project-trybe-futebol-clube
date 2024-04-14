@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: TFC - Trybe Futebol Clube API
+  description: |
+    TFC is an informative website about football matches and rankings!
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001
+paths:
+  /teams:
+    get:
+      summary: Get all teams
+      description: Retrieves a list of all registered teams.
+      responses:
+        '200':
+          description: A list of teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+              example:
+                - id: 1
+                  teamName: Avaí/Kindermann
+                - id: 2
+                  teamName: Bahia
+                - id: 3
+                  teamName: Botafogo
+  /teams/{id}:
+    get:
+      summary: Get a team by id
+      description: Retrieves a team by its id.
+      responses:
+        '200':
+          description: The team
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+                type: object
+                properties:
+                  id:
+                    value: integer
+                    example: 5
+                  teamName:
+                    value: string
+                    example: Cruzeiro
+  /login:
+    post:
+      summary: User Login
+      description: Logs in a user and returns a token for authentication.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+                type: object
+                properties:
+                  token:
+                    value: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+components:
+  schemas:
+    Team:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the team.
+          example: 1
+        teamName:
+          type: string
+          description: The name of the team.
+          example: Avaí/Kindermann
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: admin@admin.com
+        password:
+          type: string
+          example: secret_admin
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: iIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
