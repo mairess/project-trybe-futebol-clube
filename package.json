@@ -7,12 +7,17 @@
     "install:front": "cd ./app/frontend && npm install",
     "install:back": "cd ./app/backend && npm install",
     "install:apps": "npm run install:front && npm run install:back",
-    "test": "env $(cat ./app/backend/.env) jest -i --forceExit --verbose",
+    "test": "cd ./app/backend && npm test",
+    "test:coverage": "cd ./app/backend && npm run test:coverage",
     "test:browser": "SHOW_BROWSER=true npm test",
     "test:debug": "DEBUG=true npm test",
     "compose:up": "cd app && docker-compose up -d --build",
     "compose:down": "cd app && docker-compose down --remove-orphans",
-    "logs": "cd app && docker-compose logs -f"
+    "compose:db": "cd app && docker-compose up -d --build db",
+    "logs": "cd app && docker-compose logs -f",
+    "start:front": "cd ./app/frontend && npm run start",
+    "start:back": "cd ./app/backend && npm run dev",
+    "start:servers": "./start-servers.sh"
   },
   "author": "Trybe",
   "devDependencies": {
@@ -29,6 +34,7 @@
   },
   "dependencies": {
     "camelcase": "6.3.0",
+    "concurrently": "^8.2.2",
     "http-status-codes": "2.2.0",
     "jsonwebtoken": "8.5.1",
     "puppeteer": "13.2.0",
