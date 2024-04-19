@@ -18,6 +18,12 @@ Este é um projeto full e consiste em um website informativo sobre partidas e cl
 
 > ⚠️ É preciso ter o [Node](https://nodejs.org/en) instalado em sua máquina.
 >
+
+> ⚠️ É preciso usar a versão 16 do [Node](https://nodejs.org/en), rode `nvm use` 16.
+>
+
+> ⚠️ Caso não tenha o nvm instalado, siga a orientação de instalação no [link](https://github.com/nvm-sh) e use a versão 16.
+>
 <!-- > ⚠️ É preciso criar um arquivo `.env` na raiz do projeto, siga o exemplo do arquivo [`env.example`](./env.example). -->
 >
 
