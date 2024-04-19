@@ -7,13 +7,68 @@ info:
 servers:
 - url: http://localhost:3001
 paths:
+  /login:
+    post:
+      tags:
+      - Authentication
+      summary: User Login
+      description: Logs in a user and returns a token for authentication.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: "The user login was successful. \nReturns a token for authentication.\n"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: "The provided login data is invalid. \nPlease ensure the data is correct and try again.\n"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestLogin'
+        '401':
+          description: "Authentication failed due to incorrect login credentials. \nPlease verify your username and password and try again.\n"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedLogin'
+  /login/role:
+    get:
+      security:
+      - BearerAuth: []
+      tags:
+      - Authentication
+      summary: Retrieve role
+      description: Retrieves the role of the user.
+      responses:
+        '200':
+          description: The role of current user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+                type: object
+                properties:
+                  role:
+                    value: string
+                    example: admin
+        '401':
+          $ref: '#/components/responses/Unauthorized'
   /teams:
     get:
+      tags:
+      - Teams
       summary: Get all teams
       description: Retrieves a list of all registered teams.
       responses:
         '200':
-          description: A list of teams
+          description: The list of the teams
           content:
             application/json:
               schema:
@@ -29,6 +84,8 @@ paths:
                 teamName: Botafogo
   /teams/{id}:
     get:
+      tags:
+      - Teams
       summary: Get a team by id
       description: Retrieves a team by its id.
       parameters:
@@ -53,46 +110,16 @@ paths:
                   teamName:
                     value: string
                     example: Cruzeiro
-  /login:
-    post:
-      summary: User Login
-      description: Logs in a user and returns a token for authentication.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
-      responses:
-        '200':
-          description: Successful login
+        '404':
+          description: The requested team was not found. Please ensure the team exists and try again.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LoginResponse'
-                type: object
-                properties:
-                  token:
-                    value: string
-                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-  /login/role:
-    get:
-      summary: Retrieve role
-      description: Retrieves the role of the user.
-      responses:
-        '200':
-          description: The team
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Role'
-                type: object
-                properties:
-                  role:
-                    value: string
-                    example: admin
+                $ref: '#/components/schemas/TeamNotFound'
   /matches:
     get:
+      tags:
+      - Matches
       summary: Get matches
       description: Retrieves a list of matches based on the provided filters.
       parameters:
@@ -114,50 +141,54 @@ paths:
                 inProgressTrue:
                   summary: Matches in progress
                   value:
-                    - id: 41
-                      homeTeamId: 16
-                      homeTeamGoals: 2
-                      awayTeamId: 9
-                      awayTeamGoals: 0
-                      inProgress: true
-                      homeTeam:
-                        teamName: São Paulo
-                      awayTeam:
-                        teamName: Internacional
-                    - id: 42
-                      homeTeamId: 6
-                      homeTeamGoals: 1
-                      awayTeamId: 1
-                      awayTeamGoals: 0
-                      inProgress: true
-                      homeTeam:
-                        teamName: Ferroviária
-                      awayTeam:
-                        teamName: Avaí/Kindermann
+                  - id: 41
+                    homeTeamId: 16
+                    homeTeamGoals: 2
+                    awayTeamId: 9
+                    awayTeamGoals: 0
+                    inProgress: true
+                    homeTeam:
+                      teamName: São Paulo
+                    awayTeam:
+                      teamName: Internacional
+                  - id: 42
+                    homeTeamId: 6
+                    homeTeamGoals: 1
+                    awayTeamId: 1
+                    awayTeamGoals: 0
+                    inProgress: true
+                    homeTeam:
+                      teamName: Ferroviária
+                    awayTeam:
+                      teamName: Avaí/Kindermann
                 allMatches:
                   summary: All matches
                   value:
-                    - id: 1
-                      homeTeamId: 16
-                      homeTeamGoals: 1
-                      awayTeamId: 8
-                      awayTeamGoals: 1
-                      inProgress: false
-                      homeTeam:
-                        teamName: São Paulo
-                      awayTeam:
-                        teamName: Grêmio
-                    - id: 41
-                      homeTeamId: 16
-                      homeTeamGoals: 2
-                      awayTeamId: 9
-                      awayTeamGoals: 0
-                      inProgress: true
-                      homeTeam:
-                        teamName: São Paulo
-                      awayTeam:
-                        teamName: Internacional
+                  - id: 1
+                    homeTeamId: 16
+                    homeTeamGoals: 1
+                    awayTeamId: 8
+                    awayTeamGoals: 1
+                    inProgress: false
+                    homeTeam:
+                      teamName: São Paulo
+                    awayTeam:
+                      teamName: Grêmio
+                  - id: 41
+                    homeTeamId: 16
+                    homeTeamGoals: 2
+                    awayTeamId: 9
+                    awayTeamGoals: 0
+                    inProgress: true
+                    homeTeam:
+                      teamName: São Paulo
+                    awayTeam:
+                      teamName: Internacional
     post:
+      security:
+      - BearerAuth: []
+      tags:
+      - Matches
       summary: Create a new match
       description: Creates a new match with the provided details.
       requestBody:
@@ -178,8 +209,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateMatchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: The requested team was not found. Please ensure the team exists and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundCreateMatchRequest'
+        '422':
+          description: The request could not be processed due to validation errors.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessableCreateMatchRequest'
   /matches/{id}/finish:
     patch:
+      security:
+      - BearerAuth: []
+      tags:
+      - Matches
       summary: Finish Match
       description: Finishes the match with the specified ID.
       parameters:
@@ -196,17 +245,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FinishMatchReturn'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: The requested match was not found. Please ensure the match exists and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchNotFound'
   /matches/{id}:
     patch:
+      security:
+      - BearerAuth: []
+      tags:
+      - Matches
       summary: Update Match Score
       description: Updates the score of the match with the specified ID.
       parameters:
-        - name: id
-          in: path
-          description: ID of the match to update the score for.
-          required: true
-          schema:
-            type: integer
+      - name: id
+        in: path
+        description: ID of the match to update the score for.
+        required: true
+        schema:
+          type: integer
       requestBody:
         required: true
         content:
@@ -220,8 +281,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateScoreResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: The requested match was not found. Please ensure the match exists and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchNotFound'
   /leaderboard/home:
     get:
+      tags:
+      - Leaderboard
       summary: Get home team leaderboard
       description: |
         Retrieves the leaderboard containing information about all home matches.
@@ -235,28 +306,30 @@ paths:
                 items:
                   $ref: '#/components/schemas/LeaderBoard'
               example:
-                - name: Santos
-                  totalPoints: 9
-                  totalGames: 3
-                  totalVictories: 3
-                  totalDraws: 0
-                  totalLosses: 0
-                  goalsFavor: 9
-                  goalsOwn: 3
-                  goalsBalance: 6
-                  efficiency: 100
-                - name: Palmeiras
-                  totalPoints: 7
-                  totalGames: 3
-                  totalVictories: 2
-                  totalDraws: 1
-                  totalLosses: 0
-                  goalsFavor: 10
-                  goalsOwn: 5
-                  goalsBalance: 5
-                  efficiency: 77.78
+              - name: Santos
+                totalPoints: 9
+                totalGames: 3
+                totalVictories: 3
+                totalDraws: 0
+                totalLosses: 0
+                goalsFavor: 9
+                goalsOwn: 3
+                goalsBalance: 6
+                efficiency: 100
+              - name: Palmeiras
+                totalPoints: 7
+                totalGames: 3
+                totalVictories: 2
+                totalDraws: 1
+                totalLosses: 0
+                goalsFavor: 10
+                goalsOwn: 5
+                goalsBalance: 5
+                efficiency: 77.78
   /leaderboard/away:
     get:
+      tags:
+      - Leaderboard
       summary: Get away team leaderboard
       description: |
         Retrieves the leaderboard containing information about all away matches.
@@ -270,28 +343,30 @@ paths:
                 items:
                   $ref: '#/components/schemas/LeaderBoard'
               example:
-                - name: Palmeiras
-                  totalPoints: 6
-                  totalGames: 2
-                  totalVictories: 2
-                  totalDraws: 0
-                  totalLosses: 0
-                  goalsFavor: 7
-                  goalsOwn: 0
-                  goalsBalance: 7
-                  efficiency: 100.00
-                - name: Corinthians
-                  totalPoints: 6
-                  totalGames: 3
-                  totalVictories: 2
-                  totalDraws: 0
-                  totalLosses: 1
-                  goalsFavor: 6
-                  goalsOwn: 2
-                  goalsBalance: 4
-                  efficiency: 66.67
+              - name: Palmeiras
+                totalPoints: 6
+                totalGames: 2
+                totalVictories: 2
+                totalDraws: 0
+                totalLosses: 0
+                goalsFavor: 7
+                goalsOwn: 0
+                goalsBalance: 7
+                efficiency: 100.00
+              - name: Corinthians
+                totalPoints: 6
+                totalGames: 3
+                totalVictories: 2
+                totalDraws: 0
+                totalLosses: 1
+                goalsFavor: 6
+                goalsOwn: 2
+                goalsBalance: 4
+                efficiency: 66.67
   /leaderboard:
     get:
+      tags:
+      - Leaderboard
       summary: Get general leaderboard
       description: |
         Retrieves the leaderboard containing information about all matches of a team.
@@ -305,27 +380,32 @@ paths:
                 items:
                   $ref: '#/components/schemas/LeaderBoard'
               example:
-                - name: Palmeiras
-                  totalPoints: 13
-                  totalGames: 5
-                  totalVictories: 4
-                  totalDraws: 1
-                  totalLosses: 0
-                  goalsFavor: 17
-                  goalsOwn: 5
-                  goalsBalance: 12
-                  efficiency: 86.67
-                - name: Corinthians
-                  totalPoints: 12
-                  totalGames: 5
-                  totalVictories: 4
-                  totalDraws: 0
-                  totalLosses: 1
-                  goalsFavor: 12
-                  goalsOwn: 3
-                  goalsBalance: 9
-                  efficiency: 80
+              - name: Palmeiras
+                totalPoints: 13
+                totalGames: 5
+                totalVictories: 4
+                totalDraws: 1
+                totalLosses: 0
+                goalsFavor: 17
+                goalsOwn: 5
+                goalsBalance: 12
+                efficiency: 86.67
+              - name: Corinthians
+                totalPoints: 12
+                totalGames: 5
+                totalVictories: 4
+                totalDraws: 0
+                totalLosses: 1
+                goalsFavor: 12
+                goalsOwn: 3
+                goalsBalance: 9
+                efficiency: 80
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     Team:
       type: object
@@ -338,6 +418,12 @@ components:
           type: string
           description: The name of the team.
           example: Avaí/Kindermann
+    TeamNotFound:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Team not found!
     LoginRequest:
       type: object
       required:
@@ -356,6 +442,18 @@ components:
         token:
           type: string
           example: iIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    UnauthorizedLogin:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Invalid email or password
+    BadRequestLogin:
+      type: object
+      properties:
+        message:
+          type: string
+          example: All fields must be filled
     Role:
       type: object
       properties:
@@ -416,8 +514,8 @@ components:
     UpdateScoreRequest:
       type: object
       required:
-        - homeTeamGoals
-        - awayTeamGoals
+      - homeTeamGoals
+      - awayTeamGoals
       properties:
         homeTeamGoals:
           type: integer
@@ -457,10 +555,10 @@ components:
     CreateMatchRequest:
       type: object
       required:
-        - homeTeamId
-        - awayTeamId
-        - homeTeamGoals
-        - awayTeamGoals
+      - homeTeamId
+      - awayTeamId
+      - homeTeamGoals
+      - awayTeamGoals
       properties:
         homeTeamId:
           type: integer
@@ -481,7 +579,7 @@ components:
     CreateMatchResponse:
       type: object
       properties:
-        id: 
+        id:
           type: integer
           description: The ID of the home team.
           example: 1
@@ -537,3 +635,38 @@ components:
         efficiency:
           type: integer
           description: The efficiency of the away team in percentage.
+    UnprocessableCreateMatchRequest:
+      type: object
+      properties:
+        message:
+          type: string
+          example: It is not possible to create a match with two equal teams
+    NotFoundCreateMatchRequest:
+      type: object
+      properties:
+        message:
+          type: string
+          example: There is no team with such id!
+    MatchNotFound:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Match not found!
+  responses:
+    Unauthorized:
+      description: Authentication failed. Please verify your credentials and try again
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            TokenNotFound:
+              value:
+                message: "Token not found"
+            InvalidToken:
+              value:
+                message: "Token must be a valid token"
